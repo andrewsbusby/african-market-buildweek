@@ -6,6 +6,12 @@ exports.up = async (knex) => {
       users.string('password', 200).notNullable()
       users.timestamps(false, true)
     })
+  await knex.schema
+    .createTable('country', (country) => {
+      country.increments('country_id')
+      country.string('country_name', 120).notNullable()
+      country.string('country_abr', 10)
+    })
 }
 
 exports.down = async (knex) => {
