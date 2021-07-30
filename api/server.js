@@ -2,7 +2,7 @@ const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
 
-
+const ownerRouter = require('./owners/owner-router');
 
 
 
@@ -12,14 +12,12 @@ server.use(express.json())
 server.use(helmet())
 server.use(cors())
 
-// server.get('/api/users', async (req, res) => {
-//   res.json(await getAllUsers())
-// })
+server.use('/api/owners', ownerRouter);
 
-// server.post('/api/users', async (req, res) => {
-//   res.status(201).json(await insertUser(req.body))
-// })
 
+server.get('/', (req, res)=> {
+  res.send(`<h1>Welcome to African Marketplace API</h1>`)
+})
 //ERROR HANDLER
 server.use((err, req, res, next) => {//eslint-disable-line
   res.status(err.status || 500).json({

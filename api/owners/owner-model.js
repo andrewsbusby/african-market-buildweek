@@ -42,6 +42,24 @@ async function remove(id){
     return !item ? null : db('listings').where('listing_id', id).del()
 }
 
+async function getAllOwnerItems(ownerId) { // added
+    let allItems = await db('owners as o').join('listings as l', 'l.owner_id', 'o.owner_id')
+        .select('l.listing_id', 'l.listing_category', 'l.listing_name', 'l.listing_price', 'l.listing_location', 'o.owner_id', 'o.email')
+        .where('o.owner_id', ownerId)
+        .orderBy('l.listing_category', 'desc');
+
+    if (allItems.length == 0) {
+        return null
+    } else {
+        return allItems.map(items => (
+            {
+                ...items,
+                listing_price: Number(items.listing_price)
+            }
+        ))
+    }
+}
+
 
 // ==============FOR USERS=====================
 
@@ -66,5 +84,6 @@ module.exports = {
     getItemById,
     update,
     remove,
-    getListings
+    getListings,
+    getAllOwnerItems
 }
