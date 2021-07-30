@@ -3,6 +3,8 @@ const helmet = require('helmet')
 const cors = require('cors')
 
 const ownerRouter = require('./owners/owner-router');
+const userRouter = require('./users/user-router');
+const authRouter = require('./auth/auth-router');
 
 
 
@@ -13,6 +15,8 @@ server.use(helmet())
 server.use(cors())
 
 server.use('/api/owners', ownerRouter);
+server.use('/api/user', userRouter);
+server.use('/api/auth', authRouter);
 
 
 server.get('/', (req, res)=> {
