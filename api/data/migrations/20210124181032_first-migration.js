@@ -1,10 +1,10 @@
 exports.up = async (knex) => {
   await knex.schema
-    .createTable('users', (users) => {
-      users.increments('user_id')
-      users.string('username', 200).notNullable().unique()
-      users.string('password', 200).notNullable()
-      users.timestamps(false, true)
+    .createTable('owners', (owners) => {
+      owners.increments('owner_id')
+      owners.string('ownername', 200).notNullable().unique()
+      owners.string('password', 200).notNullable()
+      owners.timestamps(false, true)
     })
   await knex.schema.createTable('products', (tbl) => {
     tbl.increments('product_id')
@@ -13,9 +13,9 @@ exports.up = async (knex) => {
   })
   await knex.schema.createTable('listings', (tbl) => {
     tbl.increments('listing_id')
-    tbl.integer('user_id')
+    tbl.integer('owner_id')
       .unsigned()
-      .references('users.user_id')
+      .references('owners.owner_id')
       .onUpdate('CASCADE')
       .onDelete('RESTRICT')
     tbl.string('listing_catagory', 200).notNullable()
@@ -27,7 +27,7 @@ exports.up = async (knex) => {
 }
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists('users')
+  await knex.schema.dropTableIfExists('owners')
   await knex.schema.dropTableIfExists('products')
   await knex.schema.dropTableIfExists('listings')
   
